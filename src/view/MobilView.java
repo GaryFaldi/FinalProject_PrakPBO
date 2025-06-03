@@ -8,14 +8,11 @@ package view;
  *
  * @author GaryFaldi
  */
-import controller.MobilController;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import model.Mobil;
 import dao.MobilDAO;
-import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 public class MobilView extends javax.swing.JFrame {
 
     private List<Mobil> listMobil;
@@ -479,6 +476,14 @@ public class MobilView extends javax.swing.JFrame {
             return;
         }
 
+        // Cek status mobil
+        MobilDAO mobilDAO = new MobilDAO();
+        int statusMobil = mobilDAO.cekStatusMobil(selectedMobil.getPlat());
+        if (statusMobil != 1) {
+            JOptionPane.showMessageDialog(this, "Mobil tidak tersedia, silakan pilih mobil lain.");
+            return;
+        }
+
         try {
             int hari = Integer.parseInt(jumlahHari);
             if (hari <= 0) {
@@ -486,7 +491,7 @@ public class MobilView extends javax.swing.JFrame {
                 return;
             }
 
-            int totalHarga = (int) (selectedMobil.getHargaSewa() * hari);
+            int totalBayar = (int) (selectedMobil.getHargaSewa() * hari);
 
             NotaMobilView notaView = new NotaMobilView();
             notaView.setData(
@@ -495,8 +500,8 @@ public class MobilView extends javax.swing.JFrame {
                 selectedMobil.getTipe(),
                 selectedMobil.getHargaSewa(),
                 hari,
-                totalHarga,
-                namaPenyewa // tambahan nama penyewa
+                totalBayar,
+                namaPenyewa
             );
             notaView.setVisible(true);
             this.dispose();
@@ -504,6 +509,7 @@ public class MobilView extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Masukkan jumlah hari yang valid!");
         }
+
     }//GEN-LAST:event_pesanBtnActionPerformed
 
     private void btnKembailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembailActionPerformed
@@ -614,7 +620,9 @@ public class MobilView extends javax.swing.JFrame {
 
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         for (Mobil mobil : listMobil) {
-            model.addElement(mobil.getTipe()); // Masukkan hanya tipe-nya ke ComboBox
+            if (mobil.getStatus() == 1) {
+                model.addElement(mobil.getTipe());
+            } 
         }
         jComboBox1.setModel(model);
 
@@ -635,9 +643,4 @@ public class MobilView extends javax.swing.JFrame {
             }
         });
     }
-
-
-    
-    
-
 }

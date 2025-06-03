@@ -28,14 +28,14 @@ public class MotorDAO {
             stmt.setString(2, motor.getTipe());
             stmt.setString(3, motor.getMerk());
             stmt.setDouble(4, motor.getHargaSewa());
-            stmt.setString(5, motor.getStatus());
+            stmt.setInt(5, motor.getStatus());
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Gagal tambah motor: " + e.getMessage());
         }
     }
     
-    public void HapusMotor(String plat) {
+    public void hapusMotor(String plat) {
         String sql = "DELETE FROM motor WHERE plat = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, plat);
@@ -51,7 +51,7 @@ public class MotorDAO {
             stmt.setString(1, motor.getTipe());
             stmt.setString(2, motor.getMerk());
             stmt.setDouble(3, motor.getHargaSewa());
-            stmt.setString(4, motor.getStatus());
+            stmt.setInt(4, motor.getStatus());
             stmt.setString(5, motor.getPlat());
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -70,8 +70,9 @@ public class MotorDAO {
                     rs.getString("tipe"),
                     rs.getString("merk"),
                     rs.getInt("hargaSewa"),
-                    rs.getString("status")
+                    rs.getInt("status")
                 );
+                System.out.println("Data dari DB: " + motor.getTipe());
                 list.add(motor);
             }
         } catch (SQLException e) {
@@ -91,14 +92,39 @@ public class MotorDAO {
                         rs.getString("tipe"),
                         rs.getString("merk"),
                         rs.getInt("hargaSewa"),
-                        rs.getString("status")
+                        rs.getInt("status")
                     );
                 }
             }
         } catch (SQLException e) {
             System.out.println("Gagal ambil motor by ID: " + e.getMessage());
         }
-        return null; // Jika tidak ditemukan
+        return null;
+    }
+    
+    public int cekStatusMotor(String plat) {
+        int status = 0;
+        String sql = "SELECT status FROM motor WHERE plat = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, plat);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                status = rs.getInt("status");
+            }
+        } catch (SQLException e) {
+            System.err.println("Gagal cek status motor: " + e.getMessage());
+        }
+
+        return status;
     }
 
+    public void updateStatusMotor(String plat, int status) throws SQLException {
+        String query = "UPDATE motor SET status = ? WHERE plat = ?";
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setInt(1, status);
+        stmt.setString(2, plat);
+        stmt.executeUpdate();
+        stmt.close();
+    }
 }

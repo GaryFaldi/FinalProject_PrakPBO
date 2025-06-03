@@ -43,7 +43,11 @@ public class Validator {
 
     // Validasi plat nomor (contoh: AB1234CD)
     public static boolean isValidPlatNomor(String input) {
-        return input != null && input.matches("^[A-Z]{1,2}[0-9]{1,4}[A-Z]{1,3}$");
+        return input != null && input.matches("^[A-Z]{1,2}[0-9 ]{1,4}$");
+    }
+    
+    public static boolean isGeneralText(String input) {
+        return input != null && input.matches("^[a-zA-Z0-9 ]+$");
     }
     
     // Cek apakah sebuah string kosong (sudah ada)
@@ -67,4 +71,5 @@ public class Validator {
         return "admin".equalsIgnoreCase(role) || "user".equalsIgnoreCase(role);
     }
 }
+
 

@@ -28,7 +28,7 @@ public class MobilDAO {
             stmt.setString(2, mobil.getTipe());
             stmt.setString(3, mobil.getMerk());
             stmt.setDouble(4, mobil.getHargaSewa());
-            stmt.setString(5, mobil.getStatus());
+            stmt.setInt(5, mobil.getStatus());
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Gagal tambah mobil: " + e.getMessage());
@@ -51,7 +51,7 @@ public class MobilDAO {
             stmt.setString(1, mobil.getTipe());
             stmt.setString(2, mobil.getMerk());
             stmt.setDouble(3, mobil.getHargaSewa());
-            stmt.setString(4, mobil.getStatus());
+            stmt.setInt(4, mobil.getStatus());
             stmt.setString(5, mobil.getPlat());
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -70,7 +70,7 @@ public class MobilDAO {
                     rs.getString("tipe"),
                     rs.getString("merk"),
                     rs.getInt("hargaSewa"),
-                    rs.getString("status")
+                    rs.getInt("status")
                 );
                 System.out.println("Data dari DB: " + mobil.getTipe()); // Tambahkan ini
                 list.add(mobil);
@@ -93,7 +93,7 @@ public class MobilDAO {
                         rs.getString("tipe"),
                         rs.getString("merk"),
                         rs.getInt("hargaSewa"),
-                        rs.getString("status")
+                        rs.getInt("status")
                     );
                 }
             }
@@ -101,6 +101,32 @@ public class MobilDAO {
             System.out.println("Gagal ambil mobil by ID: " + e.getMessage());
         }
         return null; // Jika tidak ditemukan
+    }
+    
+    public int cekStatusMobil(String plat) {
+        int status = 0; // default: tidak tersedia
+        String sql = "SELECT status FROM mobil WHERE plat = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, plat);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                status = rs.getInt("status");
+            }
+        } catch (SQLException e) {
+            System.err.println("Gagal cek status mobil: " + e.getMessage());
+        }
+
+        return status;
+    }
+
+    public void updateStatusMobil(String plat, int status) throws SQLException {
+        String query = "UPDATE mobil SET status = ? WHERE plat = ?";
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setInt(1, status);
+        stmt.setString(2, plat);
+        stmt.executeUpdate();
+        stmt.close();
     }
 
 }

@@ -8,14 +8,62 @@ package model;
  *
  * @author GaryFaldi
  */
-public class Motor extends Kendaraan {
+public class Motor {
+    protected String plat;
+    protected String tipe;
+    protected String merk;
+    protected int hargaSewa;
+    protected int status;
 
-    public Motor(String plat, String tipe, String merk, int hargaSewa, String status) {
-        super(plat, tipe, merk, hargaSewa, status);
+    public Motor(String plat, String tipe, String merk, int hargaSewa, int status) {
+        this.plat = plat;
+        this.tipe = tipe;
+        this.merk = merk;
+        this.hargaSewa = hargaSewa;
+        this.status = status;
     }
 
-    @Override
     public String getJenis() {
         return "Motor";
+    }
+
+    public String getPlat() {
+        return plat;
+    }
+
+    public String getTipe() {
+        return tipe;
+    }
+
+    public String getMerk() {
+        return merk;
+    }
+
+    public double getHargaSewa() {
+        return hargaSewa;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setTipe(String tipe) {
+        this.tipe = tipe;
+    }
+
+    public void setMerk(String merk) {
+        this.merk = merk;
+    }
+
+    public void setHargaSewa(int hargaSewa) {
+        this.hargaSewa = hargaSewa;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String toString() {
+        return tipe;  // atau bisa diganti sesuai kebutuhan
     }
 }

@@ -8,12 +8,16 @@ package view;
  *
  * @author GaryFaldi
  */
+import controller.MotorController;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import controller.TransaksiController;
+import javax.swing.JOptionPane;
 public class NotaMotorView extends javax.swing.JFrame {
 
     /**
      * Creates new form NotaView
      */
-    private javax.swing.JTextField namaPenyewaTextField;
 
     public NotaMotorView() {
         initComponents();
@@ -46,6 +50,10 @@ public class NotaMotorView extends javax.swing.JFrame {
         jTextField8 = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         BackToMenu = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jTextField10 = new javax.swing.JTextField();
+        jTextField9 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -121,6 +129,26 @@ public class NotaMotorView extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setText("Tanggal Penyewaan");
+
+        jLabel11.setText("Tanggal Pengembalian");
+
+        jTextField10.setEditable(false);
+        jTextField10.setEnabled(false);
+        jTextField10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField10ActionPerformed(evt);
+            }
+        });
+
+        jTextField9.setEditable(false);
+        jTextField9.setEnabled(false);
+        jTextField9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField9ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -129,7 +157,11 @@ public class NotaMotorView extends javax.swing.JFrame {
                 .addGap(57, 57, 57)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -179,17 +211,29 @@ public class NotaMotorView extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addGap(5, 5, 5)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel5)
+                        .addGap(5, 5, 5)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(5, 5, 5)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6)
-                .addGap(5, 5, 5)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel7))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(5, 5, 5)
                 .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -225,6 +269,14 @@ public class NotaMotorView extends javax.swing.JFrame {
         userDashboard.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_BackToMenuActionPerformed
+
+    private void jTextField10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField10ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField10ActionPerformed
+
+    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -265,6 +317,8 @@ public class NotaMotorView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackToMenu;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -274,6 +328,7 @@ public class NotaMotorView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
@@ -281,17 +336,44 @@ public class NotaMotorView extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
 
-    public void setData(String plat, String merk, String tipe, double hargaSewa, int hari, int totalHarga, String namaPenyewa) {
-        jTextField1.setText("Motor");                         // Plat Kendaraan
-        jTextField2.setText(plat);                         // Plat Kendaraan
-        jTextField4.setText(merk);                         // Merk Kendaraan
-        jTextField3.setText(tipe);                         // Tipe Kendaraan
-        jTextField5.setText(String.valueOf(hargaSewa));    // Harga Sewa per Hari
-        jTextField6.setText(String.valueOf(hari));         // Lama Sewa (Hari)
-        jTextField7.setText(String.valueOf(totalHarga));   // Total Harga
+    public void setData(String plat, String merk, String tipe, double hargaSewa, int hari, int totalBayar, String namaPenyewa) {
+        jTextField1.setText("Motor");                        // Tipe Kendaraan, sekarang motor
+        jTextField2.setText(plat);                           // Plat Kendaraan
+        jTextField4.setText(merk);                           // Merk Kendaraan
+        jTextField3.setText(tipe);                           // Tipe Kendaraan
+        jTextField5.setText(String.valueOf(hargaSewa));     // Harga Sewa per Hari
+        jTextField6.setText(String.valueOf(hari));          // Lama Sewa (Hari)
+        jTextField7.setText(String.valueOf(totalBayar));    // Total Harga
         jTextField8.setText(namaPenyewa);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
+
+        // Mendapatkan tanggal hari ini
+        LocalDate tanggalPemesanan = LocalDate.now();
+        jTextField9.setText(tanggalPemesanan.format(formatter)); // field tanggal pemesanan
+
+        // Menghitung tanggal kembali (tanggal pemesanan + hari sewa)
+        LocalDate tanggalKembali = tanggalPemesanan.plusDays(hari);
+        jTextField10.setText(tanggalKembali.format(formatter));
+
+        try {
+            TransaksiController transaksiController = new TransaksiController();
+            transaksiController.simpanTransaksi(
+                plat, 
+                namaPenyewa, 
+                tanggalPemesanan, 
+                tanggalKembali, 
+                totalBayar
+            );
+            MotorController motorController = new MotorController();
+            motorController.ubahStatusMotor(plat, 0);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal menyimpan transaksi: " + e.getMessage());
+        }
     }
+
 
 }

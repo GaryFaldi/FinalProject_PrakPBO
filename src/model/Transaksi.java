@@ -13,17 +13,17 @@ import java.time.LocalDate;
 public class Transaksi {
     private int id;
     private String platKendaraan;
-    private int idUser;
-    private LocalDate tanggalPinjam;
-    private LocalDate tanggalKembali;
+    private String namaPenyewa;
+    private LocalDate tanggalPenyewaan;
+    private LocalDate tanggalPengembalian;
     private double totalBayar;
 
-    public Transaksi(int id, String platKendaraan, int idUser, LocalDate tanggalPinjam, LocalDate tanggalKembali, double totalBayar) {
+    public Transaksi(int id, String platKendaraan, String namaPenyewa, LocalDate tanggalPenyewaan, LocalDate tanggalPengembalian, double totalBayar) {
         this.id = id;
         this.platKendaraan = platKendaraan;
-        this.idUser = idUser;
-        this.tanggalPinjam = tanggalPinjam;
-        this.tanggalKembali = tanggalKembali;
+        this.namaPenyewa = namaPenyewa;
+        this.tanggalPenyewaan = tanggalPenyewaan;
+        this.tanggalPengembalian = tanggalPengembalian;
         this.totalBayar = totalBayar;
     }
 
@@ -36,16 +36,16 @@ public class Transaksi {
         return platKendaraan;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public String getNamaPenyewa() {
+        return namaPenyewa;
     }
 
-    public LocalDate getTanggalPinjam() {
-        return tanggalPinjam;
+    public LocalDate getTanggalPenyewaan() {
+        return tanggalPenyewaan;
     }
 
-    public LocalDate getTanggalKembali() {
-        return tanggalKembali;
+    public LocalDate getTanggalPengembalian() {
+        return tanggalPengembalian;
     }
 
     public double getTotalBayar() {
@@ -56,16 +56,16 @@ public class Transaksi {
         this.platKendaraan = platKendaraan;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setNamaPenyewa(String namaPenyewa) {
+        this.namaPenyewa = namaPenyewa;
     }
 
-    public void setTanggalPinjam(LocalDate tanggalPinjam) {
-        this.tanggalPinjam = tanggalPinjam;
+    public void setTanggalPenyewaan(LocalDate tanggalPenyewaan) {
+        this.tanggalPenyewaan = tanggalPenyewaan;
     }
 
-    public void setTanggalKembali(LocalDate tanggalKembali) {
-        this.tanggalKembali = tanggalKembali;
+    public void setTanggalPengembalian(LocalDate tanggalPengembalian) {
+        this.tanggalPengembalian = tanggalPengembalian;
     }
 
     public void setTotalBayar(double totalBayar) {

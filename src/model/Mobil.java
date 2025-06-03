@@ -13,9 +13,9 @@ public class Mobil {
     protected String tipe;
     protected String merk;
     protected int hargaSewa;
-    protected String status;
+    protected int status;
     
-    public Mobil(String plat, String tipe, String merk, int hargaSewa, String status) {
+    public Mobil(String plat, String tipe, String merk, int hargaSewa, int status) {
         this.plat = plat;
         this.tipe = tipe;
         this.merk = merk;
@@ -41,7 +41,7 @@ public class Mobil {
         return hargaSewa;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
@@ -57,7 +57,7 @@ public class Mobil {
         this.hargaSewa = hargaSewa;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
     

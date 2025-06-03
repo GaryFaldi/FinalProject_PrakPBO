@@ -8,14 +8,11 @@ package view;
  *
  * @author GaryFaldi
  */
-import controller.MotorController;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import model.Motor;
 import dao.MotorDAO;
-import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 public class MotorView extends javax.swing.JFrame {
 
@@ -24,8 +21,6 @@ public class MotorView extends javax.swing.JFrame {
      */
     private List<Motor> listMotor;
     private MotorDAO motorDAO;
-    private javax.swing.JTextField namaTextField;
-
     public MotorView() {
         initComponents();
         initData();
@@ -51,7 +46,7 @@ public class MotorView extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel15 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
         merkTextField = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         tipeTextField = new javax.swing.JTextField();
@@ -99,9 +94,9 @@ public class MotorView extends javax.swing.JFrame {
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText("Pilih Motor");
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                jTextField4ActionPerformed(evt);
             }
         });
 
@@ -137,7 +132,7 @@ public class MotorView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -207,7 +202,7 @@ public class MotorView extends javax.swing.JFrame {
                         .addGap(93, 93, 93)
                         .addComponent(jLabel15)
                         .addGap(4, 4, 4)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(33, 33, 33)
                 .addComponent(pesanBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
@@ -219,13 +214,13 @@ public class MotorView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void pesanBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesanBtnActionPerformed
-        String selectedTipe = (String) jComboBox1.getSelectedItem(); // Asumsikan jComboBox2 untuk motor
+        String selectedTipe = (String) jComboBox1.getSelectedItem();
         Motor selectedMotor = listMotor.stream()
             .filter(m -> m.getTipe().equals(selectedTipe))
             .findFirst()
             .orElse(null);
 
-        String jumlahHari = jTextField3.getText().trim();
+        String jumlahHari = jTextField4.getText().trim();
         String namaPenyewa = namaPenyewaTextField.getText().trim();
 
         if (selectedMotor == null) {
@@ -238,6 +233,14 @@ public class MotorView extends javax.swing.JFrame {
             return;
         }
 
+        // Cek status motor
+        MotorDAO motorDAO = new MotorDAO();
+        int statusMotor = motorDAO.cekStatusMotor(selectedMotor.getPlat());
+        if (statusMotor != 1) {
+            JOptionPane.showMessageDialog(this, "Motor tidak tersedia, silakan pilih motor lain.");
+            return;
+        }
+
         try {
             int hari = Integer.parseInt(jumlahHari);
             if (hari <= 0) {
@@ -245,7 +248,7 @@ public class MotorView extends javax.swing.JFrame {
                 return;
             }
 
-            int totalHarga = (int) (selectedMotor.getHargaSewa() * hari);
+            int totalBayar = (int) (selectedMotor.getHargaSewa() * hari);
 
             NotaMotorView notaView = new NotaMotorView();
             notaView.setData(
@@ -254,8 +257,8 @@ public class MotorView extends javax.swing.JFrame {
                 selectedMotor.getTipe(),
                 selectedMotor.getHargaSewa(),
                 hari,
-                totalHarga,
-                namaPenyewa // tambahan nama penyewa
+                totalBayar,
+                namaPenyewa
             );
             notaView.setVisible(true);
             this.dispose();
@@ -263,7 +266,6 @@ public class MotorView extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Masukkan jumlah hari yang valid!");
         }
-
 
     }//GEN-LAST:event_pesanBtnActionPerformed
 
@@ -277,9 +279,9 @@ public class MotorView extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnKembailActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void namaPenyewaTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namaPenyewaTextFieldActionPerformed
         String namaPenyewa = namaPenyewaTextField.getText().trim();
@@ -336,7 +338,7 @@ public class MotorView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JTextField merkTextField;
     private javax.swing.JTextField namaPenyewaTextField;
@@ -350,9 +352,11 @@ public class MotorView extends javax.swing.JFrame {
 
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         for (Motor motor : listMotor) {
-            model.addElement(motor.getTipe()); // Masukkan hanya tipe-nya ke ComboBox
+            if (motor.getStatus() == 1) {
+                model.addElement(motor.getTipe());
+            }        
         }
-        jComboBox1.setModel(model); // Asumsikan jComboBox2 untuk motor
+        jComboBox1.setModel(model);
 
         jComboBox1.addActionListener(e -> {
             String selectedTipe = (String) jComboBox1.getSelectedItem();
@@ -371,5 +375,4 @@ public class MotorView extends javax.swing.JFrame {
             }
         });
     }
-
 }

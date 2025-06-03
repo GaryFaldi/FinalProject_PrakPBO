@@ -22,20 +22,22 @@ public class TransaksiDAO {
         conn = Connector.getConnection();
     }
 
-    // Menambahkan transaksi baru
-    public void tambahTransaksi(Transaksi transaksi) {
-        String sql = "INSERT INTO transaksi (plat_kendaraan, id_user, tanggal_pinjam, tanggal_kembali, total_bayar) VALUES (?, ?, ?, ?, ?)";
+    public void insertTransaksi(Transaksi transaksi) {
+        String sql = "INSERT INTO transaksi (platKendaraan, namaPenyewa, tanggalPenyewaan, tanggalPengembalian, totalBayar) VALUES (?, ?, ?, ?, ?)";
+
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, transaksi.getPlatKendaraan());
-            stmt.setInt(2, transaksi.getIdUser());
-            stmt.setDate(3, Date.valueOf(transaksi.getTanggalPinjam()));
-            stmt.setDate(4, Date.valueOf(transaksi.getTanggalKembali()));
+            stmt.setString(2, transaksi.getNamaPenyewa()); // pastikan ada setter dan getter id_user
+            stmt.setDate(3, java.sql.Date.valueOf(transaksi.getTanggalPenyewaan())); // LocalDate
+            stmt.setDate(4, java.sql.Date.valueOf(transaksi.getTanggalPengembalian()));
             stmt.setDouble(5, transaksi.getTotalBayar());
+
             stmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Gagal tambah transaksi: " + e.getMessage());
+            e.printStackTrace();
         }
     }
+
 
     // Mengambil semua transaksi
     public List<Transaksi> getAllTransaksi() {
@@ -46,11 +48,11 @@ public class TransaksiDAO {
             while (rs.next()) {
                 Transaksi transaksi = new Transaksi(
                     rs.getInt("id"),
-                    rs.getString("plat_kendaraan"),
-                    rs.getInt("id_user"),
-                    rs.getDate("tanggal_pinjam").toLocalDate(),
-                    rs.getDate("tanggal_kembali").toLocalDate(),
-                    rs.getDouble("total_bayar")
+                    rs.getString("platKendaraan"),
+                    rs.getString("namaPenyewa"),
+                    rs.getDate("tanggalPenyewaan").toLocalDate(),
+                    rs.getDate("tanggalPengembalian").toLocalDate(),
+                    rs.getDouble("totalBayar")
                 );
                 list.add(transaksi);
             }
@@ -69,11 +71,11 @@ public class TransaksiDAO {
                 if (rs.next()) {
                     return new Transaksi(
                         rs.getInt("id"),
-                        rs.getString("plat_kendaraan"),
-                        rs.getInt("id_user"),
-                        rs.getDate("tanggal_pinjam").toLocalDate(),
-                        rs.getDate("tanggal_kembali").toLocalDate(),
-                        rs.getDouble("total_bayar")
+                        rs.getString("platKendaraan"),
+                        rs.getString("id_user"),
+                        rs.getDate("tanggalPenyewaan").toLocalDate(),
+                        rs.getDate("tanggalPengembalian").toLocalDate(),
+                        rs.getDouble("totalBayar")
                     );
                 }
             }
