@@ -8,13 +8,32 @@ package view;
  *
  * @author GaryFaldi
  */
-public class Login extends javax.swing.JFrame {
+import controller.*;
+import dao.*;
+import model.*;
 
-    /**
-     * Creates new form Login
-     */
+public class Login extends javax.swing.JFrame {
+    private UserController userController;
+    
     public Login() {
         initComponents();
+        this.userController = new UserController();
+    
+    // Tambahkan action listener untuk login button
+    loginBtn.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            loginBtnActionPerformed(evt);
+        }
+    });
+    
+    // Tambahkan action listener untuk register label
+    jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Register registerView = new Register();
+                registerView.setVisible(true);
+                dispose();
+            }
+        });
     }
 
     /**
@@ -28,15 +47,14 @@ public class Login extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         usernameTextField = new javax.swing.JTextField();
-        PasswordTextField = new javax.swing.JTextField();
         loginBtn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jPasswordField1 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(650, 500));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -44,11 +62,6 @@ public class Login extends javax.swing.JFrame {
 
         usernameTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         usernameTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        usernameTextField.setText("Username");
-
-        PasswordTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        PasswordTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        PasswordTextField.setText("Password");
 
         loginBtn.setText("LOGIN");
 
@@ -82,12 +95,11 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(28, 28, 28))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel4)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(usernameTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-                                .addComponent(PasswordTextField, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addComponent(jLabel5))
+                            .addComponent(usernameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                            .addComponent(jLabel5)
+                            .addComponent(jPasswordField1))
                         .addGap(207, 207, 207))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -105,7 +117,7 @@ public class Login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
@@ -158,13 +170,40 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField PasswordTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JButton loginBtn;
     private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
+
+// Di dalam action listener login button:
+    private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        String username = usernameTextField.getText();
+        String password = new String(jPasswordField1.getPassword());
+
+        if (username.isEmpty() || password.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Username dan Password harus diisi.");
+            return;
+        }
+
+        User user = userController.getUserByUsername(username);
+
+        if (user != null && user.getPassword().equals(password)) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Login berhasil. Selamat datang " + user.getUsername() + "!");
+            // Arahkan ke halaman selanjutnya sesuai role
+            if (user.getRole().equalsIgnoreCase("admin")) {
+                new AdminDashboard().setVisible(true);  // Ganti sesuai tampilan admin kamu
+            } else {
+                new UserDashboard().setVisible(true);   // Ganti sesuai tampilan user kamu
+            }
+            this.dispose();  // Tutup jendela login
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Username atau Password salah.");
+        }
+    }
+
 }

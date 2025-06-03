@@ -22,7 +22,7 @@ public class MobilDAO {
     }
 
     public void tambahMobil(Mobil mobil) {
-        String sql = "INSERT INTO mobil (plat, tipe, merk, harga_sewa, status) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO mobil (plat, tipe, merk, hargaSewa, status) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, mobil.getPlat());
             stmt.setString(2, mobil.getTipe());
@@ -46,7 +46,7 @@ public class MobilDAO {
     }
 
     public void updateMobil(Mobil mobil) {
-        String sql = "UPDATE mobil SET tipe = ?, merk = ?, harga_sewa = ?, status = ? WHERE plat = ?";
+        String sql = "UPDATE mobil SET tipe = ?, merk = ?, hargaSewa = ?, status = ? WHERE plat = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, mobil.getTipe());
             stmt.setString(2, mobil.getMerk());
@@ -69,9 +69,10 @@ public class MobilDAO {
                     rs.getString("plat"),
                     rs.getString("tipe"),
                     rs.getString("merk"),
-                    rs.getInt("harga_sewa"),
+                    rs.getInt("hargaSewa"),
                     rs.getString("status")
                 );
+                System.out.println("Data dari DB: " + mobil.getTipe()); // Tambahkan ini
                 list.add(mobil);
             }
         } catch (SQLException e) {
@@ -79,6 +80,7 @@ public class MobilDAO {
         }
         return list;
     }
+
 
     public Mobil getMobilById(String plat) {
         String sql = "SELECT * FROM mobil WHERE plat = ?";
@@ -90,7 +92,7 @@ public class MobilDAO {
                         rs.getString("plat"),
                         rs.getString("tipe"),
                         rs.getString("merk"),
-                        rs.getInt("harga_sewa"),
+                        rs.getInt("hargaSewa"),
                         rs.getString("status")
                     );
                 }

@@ -22,7 +22,7 @@ public class MotorDAO {
     }
 
     public void tambahMotor(Motor motor) {
-        String sql = "INSERT INTO motor (plat, tipe, merk, harga_sewa, status) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO motor (plat, tipe, merk, hargaSewa, status) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, motor.getPlat());
             stmt.setString(2, motor.getTipe());
@@ -46,7 +46,7 @@ public class MotorDAO {
     }
 
     public void updateMotor(Motor motor) {
-        String sql = "UPDATE motor SET tipe = ?, merk = ?, harga_sewa = ?, status = ? WHERE plat = ?";
+        String sql = "UPDATE motor SET tipe = ?, merk = ?, hargaSewa = ?, status = ? WHERE plat = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, motor.getTipe());
             stmt.setString(2, motor.getMerk());
@@ -69,7 +69,7 @@ public class MotorDAO {
                     rs.getString("plat"),
                     rs.getString("tipe"),
                     rs.getString("merk"),
-                    rs.getInt("harga_sewa"),
+                    rs.getInt("hargaSewa"),
                     rs.getString("status")
                 );
                 list.add(motor);
@@ -90,7 +90,7 @@ public class MotorDAO {
                         rs.getString("plat"),
                         rs.getString("tipe"),
                         rs.getString("merk"),
-                        rs.getInt("harga_sewa"),
+                        rs.getInt("hargaSewa"),
                         rs.getString("status")
                     );
                 }

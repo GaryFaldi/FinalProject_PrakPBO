@@ -8,15 +8,25 @@ package view;
  *
  * @author GaryFaldi
  */
+import controller.MobilController;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import model.Mobil;
+import dao.MobilDAO;
+import javax.swing.ComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 public class MobilView extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MobilView
-     */
+    private List<Mobil> listMobil;
+    private MobilDAO mobilDAO;
+
     public MobilView() {
         initComponents();
-    }
+        initData();
 
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,20 +60,22 @@ public class MobilView extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        merkTextField = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        hargaTextField = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        namaPenyewaTextField = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        loginBtn3 = new javax.swing.JButton();
+        tipeTextField = new javax.swing.JTextField();
+        pesanBtn = new javax.swing.JButton();
+        btnKembail = new javax.swing.JButton();
+        platTextField1 = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
 
         jFrame1.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        jFrame1.setPreferredSize(new java.awt.Dimension(650, 500));
 
         jLabel1.setText("Masukkan Username");
 
@@ -133,7 +145,6 @@ public class MobilView extends javax.swing.JFrame {
         );
 
         jFrame2.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        jFrame2.setPreferredSize(new java.awt.Dimension(650, 500));
 
         jLabel3.setText("Masukkan Username");
 
@@ -203,7 +214,6 @@ public class MobilView extends javax.swing.JFrame {
         );
 
         jFrame3.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        jFrame3.setPreferredSize(new java.awt.Dimension(650, 500));
 
         jLabel7.setText("Masukkan Username");
 
@@ -279,44 +289,68 @@ public class MobilView extends javax.swing.JFrame {
         jLabel10.setText("SEWA MOBIL");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText("Pilih Mobil");
 
-        jTextField1.setEditable(false);
-        jTextField1.setEnabled(false);
+        merkTextField.setEditable(false);
+        merkTextField.setEnabled(false);
 
         jLabel12.setText("Merk Mobil");
 
         jLabel14.setText("Plat Mobil");
 
-        jTextField4.setEditable(false);
-        jTextField4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTextField4.setEnabled(false);
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
-
         jLabel13.setText("Harga sewa per hari");
 
-        jTextField2.setEditable(false);
-        jTextField2.setEnabled(false);
+        hargaTextField.setEditable(false);
+        hargaTextField.setEnabled(false);
 
         jLabel15.setText("Sewa berapa hari?");
 
-        jTextField3.setText("/hari");
+        namaPenyewaTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                namaPenyewaTextFieldActionPerformed(evt);
+            }
+        });
 
         jLabel16.setText("Tipe Mobil");
 
-        jTextField5.setEditable(false);
-        jTextField5.setEnabled(false);
+        tipeTextField.setEditable(false);
+        tipeTextField.setEnabled(false);
 
-        loginBtn3.setText("PESAN");
-        loginBtn3.addActionListener(new java.awt.event.ActionListener() {
+        pesanBtn.setText("PESAN");
+        pesanBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginBtn3ActionPerformed(evt);
+                pesanBtnActionPerformed(evt);
+            }
+        });
+
+        btnKembail.setText("Kembali");
+        btnKembail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKembailActionPerformed(evt);
+            }
+        });
+
+        platTextField1.setEditable(false);
+        platTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        platTextField1.setEnabled(false);
+        platTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                platTextField1ActionPerformed(evt);
+            }
+        });
+
+        jLabel17.setText("Nama Penyewa");
+
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
             }
         });
 
@@ -325,40 +359,59 @@ public class MobilView extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(64, 64, 64)
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel16)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel13))
-                .addGap(133, 133, 133))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(loginBtn3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(234, 234, 234))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(48, 48, 48)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(13, 13, 13)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(namaPenyewaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 170, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(merkTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(hargaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tipeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel13)
+                            .addComponent(platTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(133, 133, 133))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(pesanBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(268, 268, 268))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(btnKembail)
+                                    .addGap(15, 15, 15)))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(66, 66, 66))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(namaPenyewaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel11)
@@ -366,27 +419,29 @@ public class MobilView extends javax.swing.JFrame {
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(99, 99, 99)
                         .addComponent(jLabel15)
-                        .addGap(4, 4, 4)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel14)
-                        .addGap(4, 4, 4)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(platTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
                         .addComponent(jLabel16)
                         .addGap(4, 4, 4)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tipeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(14, 14, 14)
                         .addComponent(jLabel12)
                         .addGap(4, 4, 4)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(merkTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel13)
                         .addGap(4, 4, 4)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(hargaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(33, 33, 33)
-                .addComponent(loginBtn3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addComponent(pesanBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnKembail)
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         pack();
@@ -404,13 +459,78 @@ public class MobilView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameTextField5ActionPerformed
 
+    private void pesanBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesanBtnActionPerformed
+        String selectedTipe = (String) jComboBox1.getSelectedItem();
+        Mobil selectedMobil = listMobil.stream()
+            .filter(m -> m.getTipe().equals(selectedTipe))
+            .findFirst()
+            .orElse(null);
+
+        String jumlahHari = jTextField4.getText().trim();
+        String namaPenyewa = namaPenyewaTextField.getText().trim();
+
+        if (selectedMobil == null) {
+            JOptionPane.showMessageDialog(this, "Pilih mobil terlebih dahulu!");
+            return;
+        }
+
+        if (namaPenyewa.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Masukkan nama penyewa!");
+            return;
+        }
+
+        try {
+            int hari = Integer.parseInt(jumlahHari);
+            if (hari <= 0) {
+                JOptionPane.showMessageDialog(this, "Jumlah hari harus lebih dari 0");
+                return;
+            }
+
+            int totalHarga = (int) (selectedMobil.getHargaSewa() * hari);
+
+            NotaMobilView notaView = new NotaMobilView();
+            notaView.setData(
+                selectedMobil.getPlat(),
+                selectedMobil.getMerk(),
+                selectedMobil.getTipe(),
+                selectedMobil.getHargaSewa(),
+                hari,
+                totalHarga,
+                namaPenyewa // tambahan nama penyewa
+            );
+            notaView.setVisible(true);
+            this.dispose();
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Masukkan jumlah hari yang valid!");
+        }
+    }//GEN-LAST:event_pesanBtnActionPerformed
+
+    private void btnKembailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembailActionPerformed
+        UserDashboard userDashboard = new UserDashboard();
+        userDashboard.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnKembailActionPerformed
+
+    private void namaPenyewaTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namaPenyewaTextFieldActionPerformed
+        String namaPenyewa = namaPenyewaTextField.getText().trim();
+        if (namaPenyewa.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nama penyewa tidak boleh kosong!");
+            namaPenyewaTextField.requestFocus();
+        }
+    }//GEN-LAST:event_namaPenyewaTextFieldActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void platTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_platTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_platTextField1ActionPerformed
+
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField4ActionPerformed
-
-    private void loginBtn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtn3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_loginBtn3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -448,6 +568,8 @@ public class MobilView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnKembail;
+    private javax.swing.JTextField hargaTextField;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
@@ -460,6 +582,7 @@ public class MobilView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -468,15 +591,15 @@ public class MobilView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JButton loginBtn;
     private javax.swing.JButton loginBtn1;
     private javax.swing.JButton loginBtn2;
-    private javax.swing.JButton loginBtn3;
+    private javax.swing.JTextField merkTextField;
+    private javax.swing.JTextField namaPenyewaTextField;
+    private javax.swing.JButton pesanBtn;
+    private javax.swing.JTextField platTextField1;
+    private javax.swing.JTextField tipeTextField;
     private javax.swing.JTextField usernameTextField;
     private javax.swing.JTextField usernameTextField1;
     private javax.swing.JTextField usernameTextField2;
@@ -484,4 +607,37 @@ public class MobilView extends javax.swing.JFrame {
     private javax.swing.JTextField usernameTextField4;
     private javax.swing.JTextField usernameTextField5;
     // End of variables declaration//GEN-END:variables
+    
+    private void initData() {
+        mobilDAO = new MobilDAO();
+        listMobil = mobilDAO.getAllMobil();
+
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        for (Mobil mobil : listMobil) {
+            model.addElement(mobil.getTipe()); // Masukkan hanya tipe-nya ke ComboBox
+        }
+        jComboBox1.setModel(model);
+
+        jComboBox1.addActionListener(e -> {
+            String selectedTipe = (String) jComboBox1.getSelectedItem();
+            if (selectedTipe != null) {
+                Mobil selectedMobil = listMobil.stream()
+                    .filter(m -> m.getTipe().equals(selectedTipe))
+                    .findFirst()
+                    .orElse(null);
+
+                if (selectedMobil != null) {
+                    platTextField1.setText(selectedMobil.getPlat());
+                    merkTextField.setText(selectedMobil.getMerk());
+                    tipeTextField.setText(selectedMobil.getTipe());
+                    hargaTextField.setText(String.valueOf(selectedMobil.getHargaSewa()));
+                }
+            }
+        });
+    }
+
+
+    
+    
+
 }

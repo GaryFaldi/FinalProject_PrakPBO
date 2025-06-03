@@ -64,16 +64,35 @@ public class UserDAO {
     }
 
     public void updateUser(User user) {
-        String sql = "UPDATE user SET username = ?, password = ?, role = ?";
+        String sql = "UPDATE user SET username = ?, password = ?, role = ? WHERE id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, user.getId());
-            stmt.setString(2, user.getUsername());
-            stmt.setString(3, user.getPassword());
-            stmt.setString(4, user.getRole());
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, user.getPassword());
+            stmt.setString(3, user.getRole());
+            stmt.setInt(4, user.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Gagal update user: " + e.getMessage());
         }
+    }
+    
+    public User getUserByUsername(String username) {
+        String sql = "SELECT * FROM user WHERE username = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new User(
+                    rs.getInt("id"),
+                    rs.getString("username"),
+                    rs.getString("password"),
+                    rs.getString("role")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting user: " + e.getMessage());
+        }
+        return null;
     }
 }
 

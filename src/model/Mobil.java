@@ -8,14 +8,60 @@ package model;
  *
  * @author GaryFaldi
  */
-public class Mobil extends Kendaraan {
-
+public class Mobil {
+    protected String plat;
+    protected String tipe;
+    protected String merk;
+    protected int hargaSewa;
+    protected String status;
+    
     public Mobil(String plat, String tipe, String merk, int hargaSewa, String status) {
-        super(plat, tipe, merk, hargaSewa, status);
-    }
+        this.plat = plat;
+        this.tipe = tipe;
+        this.merk = merk;
+        this.hargaSewa = hargaSewa;
+        this.status = status;    }
 
-    @Override
     public String getJenis() {
         return "Mobil";
+    }
+    public String getPlat() {
+        return plat;
+    }
+
+    public String getTipe() {
+        return tipe;
+    }
+
+    public String getMerk() {
+        return merk;
+    }
+
+    public double getHargaSewa() {
+        return hargaSewa;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setTipe(String tipe) {
+        this.tipe = tipe;
+    }
+
+    public void setMerk(String merk) {
+        this.merk = merk;
+    }
+
+    public void setHargaSewa(int hargaSewa) {
+        this.hargaSewa = hargaSewa;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    public String toString() {
+        return tipe;  // atau bisa juga return plat + " - " + merk + " - " + tipe;
     }
 }

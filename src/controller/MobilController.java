@@ -11,7 +11,6 @@ package controller;
 import dao.MobilDAO;
 import model.Mobil;
 import util.Validator;
-
 import javax.swing.JOptionPane;
 import java.util.List;
 

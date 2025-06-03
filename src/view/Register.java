@@ -8,13 +8,18 @@ package view;
  *
  * @author GaryFaldi
  */
+import view.*;
+import model.*;
+import controller.UserController;
 public class Register extends javax.swing.JFrame {
+    
 
     /**
      * Creates new form Register
      */
     public Register() {
         initComponents();
+        
     }
 
     /**
@@ -29,12 +34,11 @@ public class Register extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        usernameTextField = new javax.swing.JTextField();
-        usernameTextField1 = new javax.swing.JTextField();
+        usernameField = new javax.swing.JTextField();
+        passwordField = new javax.swing.JTextField();
         loginBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(650, 500));
 
         jLabel1.setText("Masukkan Username");
 
@@ -44,20 +48,28 @@ public class Register extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("BUAT AKUN");
 
-        usernameTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        usernameTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        usernameTextField.setText("Username");
-
-        usernameTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        usernameTextField1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        usernameTextField1.setText("Password");
-        usernameTextField1.addActionListener(new java.awt.event.ActionListener() {
+        usernameField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        usernameField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        usernameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameTextField1ActionPerformed(evt);
+                usernameFieldActionPerformed(evt);
+            }
+        });
+
+        passwordField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        passwordField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        passwordField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordFieldActionPerformed(evt);
             }
         });
 
         loginBtn.setText("DAFTAR");
+        loginBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -68,8 +80,8 @@ public class Register extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(usernameTextField1)
-                            .addComponent(usernameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE))
+                            .addComponent(passwordField)
+                            .addComponent(usernameField, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE))
                         .addGap(208, 208, 208))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -93,11 +105,11 @@ public class Register extends javax.swing.JFrame {
                 .addGap(60, 60, 60)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(usernameTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(164, Short.MAX_VALUE))
@@ -106,9 +118,41 @@ public class Register extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usernameTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextField1ActionPerformed
+    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_usernameTextField1ActionPerformed
+    }//GEN-LAST:event_passwordFieldActionPerformed
+
+    private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
+                                 
+            String username = usernameField.getText().trim();
+            String password = passwordField.getText().trim();
+
+            if (username.isEmpty() || password.isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Username dan Password tidak boleh kosong!", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Buat objek user baru
+            User newUser = new User(0, username, password, "user");
+            newUser.setUsername(username);
+            newUser.setPassword(password);
+            newUser.setRole("user"); // Set role default menjadi "user"
+
+            controller.UserController userController = new controller.UserController();
+            boolean success = userController.registerUser(newUser);
+
+            if (success) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Registrasi berhasil! Silakan login.");
+                this.dispose(); // Tutup form register
+                new view.Login().setVisible(true); // Buka form login
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Registrasi gagal! Username mungkin sudah digunakan.", "Gagal", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+    }//GEN-LAST:event_loginBtnActionPerformed
+
+    private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
+         
+    }//GEN-LAST:event_usernameFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -150,7 +194,10 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JButton loginBtn;
-    private javax.swing.JTextField usernameTextField;
-    private javax.swing.JTextField usernameTextField1;
+    private javax.swing.JTextField passwordField;
+    private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
+
+
+
 }
