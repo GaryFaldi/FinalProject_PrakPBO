@@ -39,7 +39,7 @@ public class Motor {
         return merk;
     }
 
-    public double getHargaSewa() {
+    public int getHargaSewa() {
         return hargaSewa;
     }
 

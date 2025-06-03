@@ -37,7 +37,7 @@ public class Mobil {
         return merk;
     }
 
-    public double getHargaSewa() {
+    public int getHargaSewa() {
         return hargaSewa;
     }
 
